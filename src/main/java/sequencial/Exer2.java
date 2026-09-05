@@ -1,3 +1,5 @@
+package sequencial;
+
 import java.util.Scanner;
 
 
