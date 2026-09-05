@@ -13,7 +13,8 @@ public class Exer2 {
         int a = sc.nextInt();
         int b = sc.nextInt();
         int soma = a + b;
-        System.out.println(soma);
+        System.out.println("Soma: " +soma);
+
 
     }
 }
