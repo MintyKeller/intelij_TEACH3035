@@ -43,7 +43,7 @@ public class Desafio {
                             preComparacao(tipo);                            break;
                         case 4:
                             System.out.println("Bem vindo ao GuessTheNumber - Sequecial Version ;) ");
-                            modoSequencia(tipo);
+                            //modoSequencia(tipo);
                             break;
                         case 0:
                             System.out.println("Voltando...");
