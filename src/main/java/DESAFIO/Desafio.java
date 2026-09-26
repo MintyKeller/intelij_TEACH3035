@@ -5,9 +5,9 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class Desafio {
-
     static Scanner sc = new Scanner(System.in);
     static Random random = new Random();
+    //arrays
     static ArrayList<Integer> historico = new ArrayList<>();
     static ArrayList<String> nomes = new ArrayList<>();
     static ArrayList<Integer> tipos = new ArrayList<>();
@@ -16,129 +16,29 @@ public class Desafio {
     static int[] tentativasMaximas = {10, 7, 5, 25};
     static int[] pontuacoesBase = {100, 200, 300, 400};
     static int[] descontoPorTentativa = {-5, -10, -15, -10};
+    private static final String[] MENSAGENS_BOAS_VINDAS = {
+            "Bem vindo ao GuessTheNumber - Fácil Version ;) ",
+            "Bem vindo ao GuessTheNumber - Médio Version ;) ",
+            "Bem vindo ao GuessTheNumber - Difícil Version ;) "
+    };
 
     public static void main(String[] args) {
-
         int escolha;
         int tipo;
         System.out.println("Olá!! Seja bem vindo :)");
         do {
             System.out.printf("\nEscolha: \n 1) Iniciar Novo Jogo \n 2) Ver Regras \n 3) Ver Históricos de Pontuação \n 0) Sair");
-
             escolha = sc.nextInt();
-
             switch (escolha) {
                 case 1:
-                    System.out.printf("\nEscolha o tipo de jogo : \n 1) Fácil \n 2) Médio \n 3) Difícil \n 4) Extra (Sequencial) \n 0) Voltar\n Para mais informações acesse \"Ver Regras\"");
-                    tipo = sc.nextInt();
-                    switch (tipo) {
-                        case 1:
-                            System.out.println("Bem vindo ao GuessTheNumber - Fácil Version ;) ");
-                            preComparacao(tipo);
-                            break;
-                        case 2:
-                            System.out.println("Bem vindo ao GuessTheNumber - Médio Version ;) ");
-                            preComparacao(tipo);
-                            break;
-                        case 3:
-                            System.out.println("Bem vindo ao GuessTheNumber - Difícil Version ;) ");
-                            preComparacao(tipo);
-                            break;
-                        case 4:
-                            System.out.println("Bem vindo ao GuessTheNumber - Sequecial Version ;) ");
-                            modoSequencia(tipo);
-                            break;
-                        case 0:
-                            System.out.println("Voltando...");
-                            break;
-                        default:
-                            printaDefault();
-                            break;
-                    }
-
-
+                    escolherTipo();
                     break;
                 case 2:
                     System.out.println("==========REGRAS==========");
-                    int lerRegra;
-                    do {
-                        System.out.printf("\nO que quer ler? \n1) Níveis de Dificuldade \n 2) Sistema de Pontuação \n 3) Sistema de Dicas \n 0) Voltar\n");
-                        lerRegra = sc.nextInt();
-                        switch (lerRegra) {
-                            case 1:
-                                System.out.println("==========Níveis de Dificuldade==========");
-                                System.out.printf(" ? Fácil: Adivinhar um número entre 1 e 50, com 10 tentativas \n" +
-                                        "? Médio: Adivinhar um número entre 1 e 100, com 7 tentativas\n" +
-                                        "? Difícil: Adivinhar um número entre 1 e 200, com 5 tentativas \n");
-                                System.out.println("==========Modo Sequência (EXTRA)==========");
-                                System.out.printf(
-                                        "No modo Sequência, três números são sorteados entre 1 e 50.\n" +
-                                                "O jogador deve descobrir os três números em até 25 tentativas no total.\n" +
-                                                "As tentativas são compartilhadas entre os três números.\n" +
-                                                "Ao acertar um número, o jogo passa para o próximo da sequência.\n" +
-                                                "Caso as 25 tentativas acabem antes de descobrir os três números, " +
-                                                "o jogador perde e recebe 0 pontos.\n" +
-                                                "A pontuação só é concedida quando os três números são descobertos.");
-                                break;
-                            case 2:
-                                System.out.println("==========Sistema de Pontuação:==========");
-                                System.out.println("==========Pontuação Base por Tipo:==========");
-                                System.out.printf(" -Fácil (100)\n -Médio (200)\n -Difícil (300) \n -Sequência (400)");
-                                System.out.println("\n==========Descontos:==========");
-                                System.out.println("A cada tentativa usada, são descontados pontos");
-                                System.out.printf(" -Fácil (-5 per tentativa)\n -Médio (-10 per tentativa)\n -Difícil (-15 per tentativa) \n -Sequência (-10 per tentativa)");
-                                System.out.println("\n==========Bônus:==========");
-                                System.out.println("Bônus por conclusão rápida: +50 pontos para cada tentativa não utilizada");
-                                break;
-                            case 3:
-                                System.out.println("==========Sistema de Dicas:==========");
-                                System.out.printf(" -Dica de paridade (par/ímpar): -10 pontos\n" +
-                                        " -Dica de intervalo (metade superior/inferior): -20 pontos\n" +
-                                        " -Dica de proximidade (quente/frio): -15 pontos");
-                                break;
-                            case 0:
-                                System.out.println("Voltando...");
-                                break;
-                            default:
-                                printaDefault();
-                                break;
-
-                        }
-
-                    } while (lerRegra != 0);
+                    verRegras();
                     break;
                 case 3:
-                    System.out.println("==========Histórico==========");
-                    printaHistorico();
-                    System.out.println("==========Sistema de Records:==========");
-                    System.out.println("P.S: dos últimos 10 históricos");
-                    System.out.println("Insira o tipo da categoria:  \n1) Fácil  \n2)Médio \n3)Difícil \n4)Sequência \n0)Voltar");
-                    int categoria = sc.nextInt();
-                    switch (categoria) {
-                        case 1:
-                            System.out.println("==========CATEGORIA FÁCIL==========");
-                            mostrarPodio(categoria);
-                            break;
-                        case 2:
-                            System.out.println("==========CATEGORIA MÉDIA==========");
-                            mostrarPodio(categoria);
-                            break;
-                        case 3:
-                            System.out.println("==========CATEGORIA DIFÍCIL==========");
-                            mostrarPodio(categoria);
-                            break;
-                        case 4:
-                            System.out.println("==========CATEGORIA SEQUÊNCIA==========");
-                            mostrarPodio(categoria);
-                            break;
-                        case 0:
-                            System.out.println("Voltando...");
-                            break;
-                        default:
-                            printaDefault();
-                            break;
-
-                    }
+                    menuHistorico();
                     break;
                 case 0:
                     System.out.println("Tchauuu!  ⸜(ˊᗜˋ)⸝");
@@ -147,10 +47,93 @@ public class Desafio {
                     printaDefault();
                     break;
             }
-
         } while (escolha != 0);
         sc.close();
+    }
 
+
+    //funções do main:
+
+    public static void escolherTipo() {
+        System.out.printf("\nEscolha o tipo de jogo : \n 1) Fácil \n 2) Médio \n 3) Difícil \n 4) Extra (Sequencial) \n 0) Voltar\n");
+        int tipo = sc.nextInt();
+        if (tipo >= 1 && tipo <= 3) {
+            System.out.println(MENSAGENS_BOAS_VINDAS[tipo - 1]);
+            preComparacao(tipo);
+        } else if (tipo == 4) {
+            System.out.println("Bem vindo ao GuessTheNumber - Sequencial Version ;) ");
+            modoSequencia(tipo);
+        } else if (tipo == 0) {
+            System.out.println("Voltando...");
+        } else {
+            printaDefault();
+        }
+    }
+
+    public static void verRegras() {
+        int lerRegra;
+        do {
+            System.out.printf("\nO que quer ler? \n1) Níveis de Dificuldade \n 2) Sistema de Pontuação \n 3) Sistema de Dicas \n 0) Voltar\n");
+            lerRegra = sc.nextInt();
+            switch (lerRegra) {
+                case 1:
+                    System.out.println("==========Níveis de Dificuldade==========");
+                    System.out.printf(" ? Fácil: Adivinhar um número entre 1 e 50, com 10 tentativas \n" +
+                            "? Médio: Adivinhar um número entre 1 e 100, com 7 tentativas\n" +
+                            "? Difícil: Adivinhar um número entre 1 e 200, com 5 tentativas \n");
+                    System.out.println("==========Modo Sequência (EXTRA)==========");
+                    System.out.printf(
+                            "No modo Sequência, três números são sorteados entre 1 e 50.\n" +
+                                    "O jogador deve descobrir os três números em até 25 tentativas no total.\n" +
+                                    "As tentativas são compartilhadas entre os três números.\n" +
+                                    "Ao acertar um número, o jogo passa para o próximo da sequência.\n" +
+                                    "Caso as 25 tentativas acabem antes de descobrir os três números, " +
+                                    "o jogador perde e recebe 0 pontos.\n" +
+                                    "A pontuação só é concedida quando os três números são descobertos.");
+                    break;
+                case 2:
+                    System.out.println("==========Sistema de Pontuação:==========");
+                    System.out.println("==========Pontuação Base por Tipo:==========");
+                    System.out.printf(" -Fácil (100)\n -Médio (200)\n -Difícil (300) \n -Sequência (400)");
+                    System.out.println("\n==========Descontos:==========");
+                    System.out.println("A cada tentativa usada, são descontados pontos");
+                    System.out.printf(" -Fácil (-5 per tentativa)\n -Médio (-10 per tentativa)\n -Difícil (-15 per tentativa) \n -Sequência (-10 per tentativa)");
+                    System.out.println("\n==========Bônus:==========");
+                    System.out.println("Bônus por conclusão rápida: +50 pontos para cada tentativa não utilizada");
+                    break;
+                case 3:
+                    System.out.println("==========Sistema de Dicas:==========");
+                    System.out.printf(" -Dica de paridade (par/ímpar): -10 pontos\n" +
+                            " -Dica de intervalo (metade superior/inferior): -20 pontos\n" +
+                            " -Dica de proximidade (quente/frio): -15 pontos");
+                    break;
+                case 0:
+                    System.out.println("Voltando...");
+                    break;
+                default:
+                    printaDefault();
+                    break;
+            }
+        } while (lerRegra != 0);
+    }
+
+    public static void menuHistorico() {
+        System.out.println("==========Histórico==========");
+        printaHistorico();
+
+        System.out.println("==========Sistema de Records:==========");
+        System.out.println("P.S: dos últimos 10 históricos");
+        System.out.println("Insira o tipo da categoria:  \n1) Fácil  \n2)Médio \n3)Difícil \n4)Sequência \n0)Voltar");
+        int categoria = sc.nextInt();
+
+        if (categoria >= 1 && categoria <= 4) {
+            System.out.println("==========CATEGORIA " + nomesTipos[categoria - 1].toUpperCase() + "==========");
+            mostrarPodio(categoria);
+        } else if (categoria == 0) {
+            System.out.println("Voltando...");
+        } else {
+            printaDefault();
+        }
     }
 
     public static void printaDefault() {
@@ -161,19 +144,19 @@ public class Desafio {
     public static void printaHistorico() {
         if (historico.isEmpty()) {
             System.out.println("O histórico está vazio  ( ╥﹏╥ )");
-        } else {
-            for (int i = 0; i < 10; i++) {
-                //aqui o chat me ajudou
-                if (i >= historico.size()) {
-                    System.out.println((i + 1) + ") VAZIO");
-                } else if (historico.get(i) == 0) {
-                    String tipo = nomesTipos[(tipos.get(i) - 1)];
-                    System.out.println((i + 1) + ") " + nomes.get(i) + " Pontuação Zerada viiish (o_O) - " + tipo);
-                } else {
-                    String tipo = nomesTipos[(tipos.get(i) - 1)];
-                    System.out.println((i + 1) + ") " + nomes.get(i) + " - " + historico.get(i) + "- " + tipo);
-                }
+            return;
+        }
+        for (int i = 0; i < 10; i++) {
+            int num = i + 1;
+            if (i >= historico.size()) {
+                System.out.println(num + ") VAZIO");
+                continue;
             }
+            String tipo = nomesTipos[tipos.get(i) - 1];
+            String status = (historico.get(i) == 0)
+                    ? "Pontuação Zerada viiish (o_O)"
+                    : String.valueOf(historico.get(i));
+            System.out.println(num + ") " + nomes.get(i) + " - " + status + " - " + tipo);
         }
     }
 
@@ -183,49 +166,50 @@ public class Desafio {
         int contadorTentativas = 0;
         int custoDicas = 0;
         boolean errou = false;
-        String tentativa;
-        String nroSorteadoString = String.valueOf(nroSorteado);
         String tentativaAnterior = "Nenhuma";
         System.out.println("Para \"Ver Dicas\" escreva \"dicas\" logo após \"Chute um nro:\"");
-        do {
+        while (true) {
             if (contadorTentativas == maxTentativas) {
                 System.out.println("Acabaste as tentativas");
-                tentativa = nroSorteadoString;
                 errou = true;
-            } else {
-                System.out.println("Tentativa nº " + (contadorTentativas + 1));
-                System.out.println("Chute um nro: ");
-                tentativa = sc.next();
-                if (!tentativa.equalsIgnoreCase("dicas")) {
-                    if (!tentativa.matches("\\d+")) {
-                        System.out.println("Digite apenas números! (ou \"dicas\")");
-                    } else {
-                        contadorTentativas++;
-                        tentativaAnterior = tentativa;
-                        compararNros(tentativa, nroSorteado);
-                    }
-                } else {
-                    if (tentativaAnterior.equals("Nenhuma")) {
-                        System.out.println("Você precisa fazer uma tentativa primeiro!");
-                    } else {
-                        int tentativaAnteriorInt = Integer.parseInt(tentativaAnterior);
-                        custoDicas += verDicas(tentativaAnteriorInt, nroSorteado, tipo);
-                    }
-                }
+                break;
             }
-        } while (!tentativa.equals(nroSorteadoString));
+            System.out.println("Tentativa nº " + (contadorTentativas + 1));
+            System.out.println("Chute um nro: ");
+            String tentativa = sc.next();
+            if (tentativa.equalsIgnoreCase("dicas")) {
+                if (tentativaAnterior.equals("Nenhuma")) {
+                    System.out.println("Você precisa fazer uma tentativa primeiro!");
+                } else {
+                    custoDicas += verDicas(Integer.parseInt(tentativaAnterior), nroSorteado, tipo);
+                }
+                continue;
+            }
+            if (!tentativa.matches("\\d+")) {
+                System.out.println("Digite apenas números! (ou \"dicas\")");
+                continue;
+            }
+            contadorTentativas++;
+            tentativaAnterior = tentativa;
+            String mensagem = "Você acertou! O número é " + tentativa;
+            if (compararNros(tentativa, nroSorteado, mensagem)) {
+                break; // acertou
+            }
+        }
         pontuar(tipo, contadorTentativas, errou, custoDicas);
-
     }
 
-    public static void compararNros(String tentativa, int nroSorteado) {
+    public static boolean compararNros(String tentativa, int alvo, String mensagemAcerto) {
         int tentativaInt = Integer.parseInt(tentativa);
-        if (tentativaInt < nroSorteado) {
+        if (tentativaInt < alvo) {
             System.out.println("MAIOR");
-        } else if (tentativaInt > nroSorteado) {
+            return false;
+        } else if (tentativaInt > alvo) {
             System.out.println("MENOR");
+            return false;
         } else {
-            System.out.println("Você acertou! O número é " + tentativa);
+            System.out.println(mensagemAcerto);
+            return true;
         }
     }
 
@@ -241,29 +225,23 @@ public class Desafio {
             String nome = lerNome();
             System.out.printf("Olá, " + nome + ". Sua pontuação é: " + pontuacao + "!! \n Confira no histórico!");
             //aqui o chat me ajudou
-            if (historico.size() == 10 && nomes.size() == 10 && tipos.size() == 10) {
-                historico.remove(0);
-                nomes.remove(0);
-                tipos.remove(0);
-            }
-            historico.add(pontuacao);
-            nomes.add(nome);
-            tipos.add(tipo);
+           inserirNoHistorico(pontuacao, nome, tipo);
         } else {
             System.out.println("Você perdeu... ( ╥﹏╥ )");
             int pontuacao = 0;
             String nome = lerNome();
-            if (historico.size() == 10 && nomes.size() == 10 && tipos.size() == 10) {
-                historico.remove(0);
-                nomes.remove(0);
-                tipos.remove(0);
-            }
-            historico.add(pontuacao);
-            nomes.add(nome);
-            tipos.add(tipo);
+            inserirNoHistorico(pontuacao, nome, tipo);
         }
-
-
+    }
+    public static void inserirNoHistorico(int pontuacao, String nome, int tipo) {
+        if (historico.size() == 10 && nomes.size() == 10 && tipos.size() == 10) {
+            historico.remove(0);
+            nomes.remove(0);
+            tipos.remove(0);
+        }
+        historico.add(pontuacao);
+        nomes.add(nome);
+        tipos.add(tipo);
     }
 
     public static String lerNome() {
@@ -336,11 +314,8 @@ public class Desafio {
             default:
                 printaDefault();
                 break;
-
         }
         return custo;
-
-
     }
 
     public static void mostrarPodio(int categoria) {
@@ -367,12 +342,8 @@ public class Desafio {
                     } else if (terceiro == -1 || pontuacaoAtual > historico.get(terceiro)) {
                         terceiro = i;
                     } // se nao for nenhum, igonra
-
-
                 }
-
             }
-
             System.out.println("=============PÓDIO==============");
             //PRIMEIRO LUGAR
             if (primeiro == -1) {
@@ -404,61 +375,44 @@ public class Desafio {
         }
         int maxTentativas = tentativasMaximas[(tipo - 1)];
         int contadorTentativas = 0;
-        String tentativaAnterior;
         boolean errou = false;
         int custoDicas = 0;
         System.out.println("Para \"Ver Dicas\" escreva \"dicas\" logo após \"Chute um nro:\"");
-        for (int i = 0; i < sequencia.length; i++) {
-            boolean acertou = false;
-            tentativaAnterior = "Nenhuma";
-            while (!acertou && !errou) {
+        for (int i = 0; i < sequencia.length && !errou; i++) {
+            String tentativaAnterior = "Nenhuma";
+            while (true) {
                 if (contadorTentativas == maxTentativas) {
                     System.out.println("Acabaste as tentativas");
                     errou = true;
-                } else {
-                    System.out.println("Tentativa nº " + (contadorTentativas + 1));
-                    System.out.println("Número " + (i + 1) + " de 3");
-                    System.out.println("Chute um número: ");
-                    String tentativa = sc.next();
-                    if (!tentativa.equalsIgnoreCase("dicas")) {
-                        if (!tentativa.matches("\\d+")) {
-                            System.out.println("Digite apenas números! (ou \"dicas\")");
-                        } else {
-                            contadorTentativas++;
-                            tentativaAnterior = tentativa;
-                            acertou = compararNroSequencia(tentativa, sequencia[i], i);
-                        }
+                    break;
+                }
+                System.out.println("Tentativa nº " + (contadorTentativas + 1));
+                System.out.println("Número " + (i + 1) + " de 3");
+                System.out.println("Chute um número: ");
+                String tentativa = sc.next();
+                if (tentativa.equalsIgnoreCase("dicas")) {
+                    if (tentativaAnterior.equals("Nenhuma")) {
+                        System.out.println("Você precisa fazer uma tentativa primeiro!");
                     } else {
-                        if (tentativaAnterior.equals("Nenhuma")) {
-                            System.out.println("Você precisa fazer uma tentativa primeiro!");
-                        } else {
-                            int tentativaAnteriorInt = Integer.parseInt(tentativaAnterior);
-                            custoDicas += verDicas(tentativaAnteriorInt, sequencia[i], tipo);
-                        }
-
+                        custoDicas += verDicas(Integer.parseInt(tentativaAnterior), sequencia[i], tipo);
                     }
+                    continue;
+                }
+                if (!tentativa.matches("\\d+")) {
+                    System.out.println("Digite apenas números! (ou \"dicas\")");
+                    continue;
+                }
+                contadorTentativas++;
+                tentativaAnterior = tentativa;
+                String mensagem = "Você acertou! O nro nº " + (i + 1) + " é o nro " + tentativa;
+                if (compararNros(tentativa, sequencia[i], mensagem)) {
+                    break; // acertou este número, passa pro próximo da sequência
                 }
             }
-            if (errou) {
-                break;
-            }
         }
+
         pontuar(4, contadorTentativas, errou, custoDicas);
     }
-
-    public static boolean compararNroSequencia(String tentativa, int nroSequencia, int indice) {
-        int tentativaInt = Integer.parseInt(tentativa);
-        if (tentativaInt < nroSequencia) {
-            System.out.println("MAIOR");
-        } else if (tentativaInt > nroSequencia) {
-            System.out.println("MENOR");
-        } else {
-            System.out.println("Você acertou! O nro nº " + (indice + 1) + " é o nro " + tentativa);
-            return true;
-        }
-        return false;
-    }
-
 }
 
 
