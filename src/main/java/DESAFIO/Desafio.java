@@ -24,7 +24,6 @@ public class Desafio {
 
     public static void main(String[] args) {
         int escolha;
-        int tipo;
         System.out.println("Olá!! Seja bem vindo :)");
         do {
             System.out.printf("\nEscolha: \n 1) Iniciar Novo Jogo \n 2) Ver Regras \n 3) Ver Históricos de Pontuação \n 0) Sair");
@@ -193,7 +192,7 @@ public class Desafio {
             tentativaAnterior = tentativa;
             String mensagem = "Você acertou! O número é " + tentativa;
             if (compararNros(tentativa, nroSorteado, mensagem)) {
-                break; // acertou
+                break;
             }
         }
         pontuar(tipo, contadorTentativas, errou, custoDicas);
@@ -217,9 +216,7 @@ public class Desafio {
         if (!errou) {
             int pontuacao = pontuacoesBase[(tipo - 1)];
             int maxTentativas = tentativasMaximas[(tipo - 1)];
-            //calcular o desconto, pela quantidade de tentativas utilizadas
             int desconto = contadorTentativas * descontoPorTentativa[(tipo - 1)];
-            //calcular o bônus, pela quanridade de tentativas NÃO utilizadas
             int bonus = (maxTentativas - contadorTentativas) * 50;
             pontuacao = pontuacao + desconto + bonus + custoDicas;
             String nome = lerNome();
@@ -272,7 +269,6 @@ public class Desafio {
         System.out.println("==========DICAS==========");
         System.out.printf("Digite para: \n 1)Dica de paridade (par/ímpar) \n 2)Dica de intervalo (metade superior/inferior) \n3)Dica de proximidade (quente/frio) \n 0)Voltar");
         int escolha = sc.nextInt();
-        // ve o tipo e pega o maximo escopo
         int limiteDoNivel = limites[tipo - 1];
         switch (escolha) {
             case 1:
@@ -299,8 +295,8 @@ public class Desafio {
                 System.out.println(" • Médio   - Até 20 números de distância");
                 System.out.println(" • Difícil - Até 40 números de distância");
                 System.out.println("========================================");
-                int distancia = Math.abs(nroSorteado - tentativaAnterior); //devolve o modulo
-                int margemQuente = (limiteDoNivel * 20) / 100; //20% de todos os niveis
+                int distancia = Math.abs(nroSorteado - tentativaAnterior);
+                int margemQuente = (limiteDoNivel * 20) / 100;
                 if (distancia <= margemQuente) {
                     System.out.println("Está quente!");
                 } else {
@@ -322,42 +318,36 @@ public class Desafio {
         if (historico.isEmpty()) {
             System.out.println("O histórico está vazio  ( ╥﹏╥ )");
         } else {
-            //id das posições do podio
             int primeiro = -1;
             int segundo = -1;
             int terceiro = -1;
-            //passa pelo índices
             for (int i = 0; i < historico.size(); i++) {
-                //pega apenas o da categoria desejada
                 if (tipos.get(i) == categoria) {
                     int pontuacaoAtual = historico.get(i);
-                    //se nao tem ngm OU se a pontuação atual analisada é maior que o prmiero colocado
                     if (primeiro == -1 || pontuacaoAtual > historico.get(primeiro)) {
-                        terceiro = segundo; //empurra os outros pra baixo
+                        terceiro = segundo;
                         segundo = primeiro;
-                        primeiro = i; // o id do primeiro vai ser o id anaslisado
+                        primeiro = i;
                     } else if (segundo == -1 || pontuacaoAtual > historico.get(segundo)) {
                         terceiro = segundo;
                         segundo = i;
                     } else if (terceiro == -1 || pontuacaoAtual > historico.get(terceiro)) {
                         terceiro = i;
-                    } // se nao for nenhum, igonra
+                    }
                 }
             }
             System.out.println("=============PÓDIO==============");
-            //PRIMEIRO LUGAR
             if (primeiro == -1) {
                 System.out.println("Primeiro lugar: VAZIO");
             } else {
                 System.out.println("Primeiro lugar: " + nomes.get(primeiro) + " - " + historico.get(primeiro));
             }
-            //SEGUNDO LUGAR
+
             if (segundo == -1) {
                 System.out.println("Segundo lugar: VAZIO");
             } else {
                 System.out.println("Segundo lugar: " + nomes.get(segundo) + " - " + historico.get(segundo));
             }
-            //TERCEIRO LUGAR
             if (terceiro == -1) {
                 System.out.println("Terceiro lugar: VAZIO");
             } else {
@@ -369,7 +359,6 @@ public class Desafio {
 
     public static void modoSequencia(int tipo) {
         int[] sequencia = new int[3];
-        //preenche o array com os nros aleatorios criados (entre 1 e 50)
         for (int i = 0; i < 3; i++) {
             sequencia[i] = random.nextInt(50) + 1;
         }
@@ -406,7 +395,7 @@ public class Desafio {
                 tentativaAnterior = tentativa;
                 String mensagem = "Você acertou! O nro nº " + (i + 1) + " é o nro " + tentativa;
                 if (compararNros(tentativa, sequencia[i], mensagem)) {
-                    break; // acertou este número, passa pro próximo da sequência
+                    break;
                 }
             }
         }
